@@ -26,6 +26,20 @@ export const DEMO_ACCOUNTS: DemoAccountHint[] = [
     detail: "Awaiting approval — sign-in is blocked",
   },
   {
+    role: "student",
+    label: "Student",
+    name: "Dev Patel",
+    email: "dev.patel@student.northline.edu",
+    detail: "Chemistry + IT Workshop access · First Year ME",
+  },
+  {
+    role: "student",
+    label: "Student",
+    name: "Isha Rao",
+    email: "isha.rao@student.northline.edu",
+    detail: "Chemistry + Electronics + IT Workshop · First Year IT",
+  },
+  {
     role: "admin",
     label: "Institution",
     name: "Dr. Meera Nair",
