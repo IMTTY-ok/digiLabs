@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BarChart3,
   Building2,
   ClipboardList,
   Compass,
@@ -65,6 +66,7 @@ function navForRole(role: Role): NavItem[] {
     { href: "/institution/students", label: "Students", icon: Users },
     { href: "/institution/equipment", label: "Equipment", icon: Wrench },
     { href: "/institution/results", label: "Results", icon: ClipboardList },
+    { href: "/institution/reports", label: "Reports", icon: BarChart3 },
     labs,
     campus,
   ];
