@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "private": "true",
   "dependencies": {
     "@react-three/drei": "^10.7.9",
