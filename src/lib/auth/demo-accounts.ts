@@ -32,20 +32,6 @@ export const DEMO_ACCOUNTS: DemoAccountHint[] = [
     email: "registrar@northline.edu",
     detail: "Administrator · Northline Institute",
   },
-  {
-    role: "instructor",
-    label: "Instructor",
-    name: "Prof. Rakesh Iyer",
-    email: "faculty@northline.edu",
-    detail: "Assignments, results, fault scenarios",
-  },
-  {
-    role: "technician",
-    label: "Technician",
-    name: "Suresh Kamble",
-    email: "technician@northline.edu",
-    detail: "Inspections and equipment readiness",
-  },
 ];
 
 export const DEMO_PASSWORD_HINT = "demo1234";

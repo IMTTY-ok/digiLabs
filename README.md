@@ -81,8 +81,6 @@ Shared password: `demo1234`
 | Student | arjun.mehta@student.northline.edu |
 | Student (pending) | sara.khan@student.northline.edu |
 | Administrator | registrar@northline.edu |
-| Instructor | faculty@northline.edu |
-| Technician | technician@northline.edu |
 
 Students go to `/dashboard`; staff go to `/institution`. Sara Khan is
 intentionally pending — signing in with her account is blocked until an

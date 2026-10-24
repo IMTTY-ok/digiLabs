@@ -77,9 +77,6 @@ export default async function InstitutionOverviewPage() {
                 Manage students
               </Link>
             ) : null}
-            <Link href="/institution/equipment" className="text-xs font-medium text-cobalt hover:text-cobalt-deep">
-              Equipment
-            </Link>
             {isAdmin ? (
               <Link href="/institution/results" className="text-xs font-medium text-cobalt hover:text-cobalt-deep">
                 Results
