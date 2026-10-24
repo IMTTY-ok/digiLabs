@@ -111,6 +111,14 @@ export default async function LabDetailPage({
             <Link href="/campus" className="text-xs font-medium text-cobalt hover:text-cobalt-deep">
               Campus
             </Link>
+            {!isStudent ? (
+              <Link
+                href={`/api/export/students?labId=${lab.id}`}
+                className="text-xs font-medium text-cobalt hover:text-cobalt-deep"
+              >
+                Download CSV
+              </Link>
+            ) : null}
           </>
         }
       />

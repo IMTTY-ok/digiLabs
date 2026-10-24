@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { MetaItem, PageHeader } from "@/components/layout/page-header";
 import { Badge, EmptyState, Panel, PanelHeader, Stat } from "@/components/ui";
@@ -80,6 +81,14 @@ export default async function InstitutionResultsPage() {
         }
         title="Results matrix."
         description="Progress, best assessment scores and recorded observations across the cohort."
+        actions={
+          <Link
+            href="/api/export/students"
+            className="text-xs font-medium text-cobalt hover:text-cobalt-deep"
+          >
+            Download CSV
+          </Link>
+        }
         meta={
           <>
             <MetaItem label="Completion" value={`${completedCount}/${completedCells || 1}`} />
