@@ -3,12 +3,10 @@ import Link from "next/link";
 import {
   Activity,
   ArrowRight,
-  CircleAlert,
   Compass,
   FlaskConical,
   Clock3,
   MapPin,
-  Wrench,
 } from "lucide-react";
 
 import { ExperimentRow } from "@/components/labs/experiment-row";
@@ -34,7 +32,6 @@ import { requireStudent } from "@/lib/auth/session";
 import { EXPERIMENTS, EXPERIMENT_BY_ID } from "@/lib/data/experiments";
 import { LABORATORIES, LAB_BY_ID } from "@/lib/data/labs";
 import {
-  getEquipmentForLabs,
   getInstitution,
   getLabAccess,
   getProgressForStudent,
@@ -73,10 +70,6 @@ export default async function DashboardPage() {
   );
   const quizResults = getQuizResults(student.id);
   const sessions = getSessions(student.id, 6);
-  const equipment = getEquipmentForLabs(labIds);
-  const equipmentAttention = equipment.filter((item) =>
-    ["inspection-due", "warning", "unavailable"].includes(item.status),
-  );
   const safety = getSafetyEvents(labIds, 6);
 
   const completed = accessibleExperiments.filter(
@@ -348,18 +341,13 @@ export default async function DashboardPage() {
                   const labExperiments = EXPERIMENTS.filter(
                     (experiment) => experiment.published && experiment.labId === lab.id,
                   );
-                  const attention = equipment.filter(
-                    (item) =>
-                      item.labId === lab.id &&
-                      ["inspection-due", "warning", "unavailable"].includes(item.status),
-                  ).length;
+
                   return (
                     <LabCard
                       key={lab.id}
                       lab={lab}
                       compact
                       experimentCount={labExperiments.length}
-                      equipmentAttention={attention}
                       accessible={labIds.includes(lab.id)}
                       href={`/labs/${lab.id}`}
                     />
@@ -402,51 +390,6 @@ export default async function DashboardPage() {
 
           {/* Aside */}
           <aside className="min-w-0 space-y-6">
-            <Panel className="overflow-hidden">
-              <div className="border-b border-line px-5 py-4">
-                <PanelHeader
-                  eyebrow="Equipment"
-                  title="Needs attention"
-                  description="Readiness records for your laboratories."
-                  action={
-                    <Wrench className="size-4 text-ink-faint" strokeWidth={1.8} aria-hidden />
-                  }
-                />
-              </div>
-              {equipmentAttention.length ? (
-                <ul className="divide-y divide-line">
-                  {equipmentAttention.slice(0, 5).map((item) => (
-                    <li key={item.id} className="px-5 py-3.5">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <p className="text-[0.8125rem] font-medium leading-snug text-ink">{item.name}</p>
-                          <p className="mt-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.1em] text-ink-faint">
-                            {LAB_BY_ID[item.labId].shortName} · {item.status.replace("-", " ")}
-                          </p>
-                        </div>
-                        <CircleAlert className="mt-0.5 size-4 shrink-0 text-amber" strokeWidth={1.8} aria-hidden />
-                      </div>
-                      {item.note ? (
-                        <p className="mt-1.5 text-xs leading-relaxed text-ink-soft">{item.note}</p>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <EmptyState
-                  title="All clear"
-                  description="No equipment is flagged in your laboratories."
-                  icon={<Wrench className="size-5" strokeWidth={1.6} />}
-                  className="py-8"
-                />
-              )}
-              <div className="border-t border-line px-5 py-3">
-                <Link href="/labs" className="text-xs font-medium text-cobalt hover:text-cobalt-deep">
-                  Review equipment in each lab
-                </Link>
-              </div>
-            </Panel>
-
             <Panel className="overflow-hidden">
               <div className="border-b border-line px-5 py-4">
                 <PanelHeader

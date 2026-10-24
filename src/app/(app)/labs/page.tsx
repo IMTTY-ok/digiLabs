@@ -16,7 +16,6 @@ import { EXPERIMENTS, EXPERIMENT_BY_ID } from "@/lib/data/experiments";
 import { LABORATORIES } from "@/lib/data/labs";
 import {
   getActiveSessionForStudent,
-  getEquipmentForLabs,
   getLabAccess,
   getProgressForStudent,
 } from "@/lib/data/repository";
@@ -33,10 +32,6 @@ export default async function LabsPage() {
   const access: LabId[] = isStudent && user.studentId ? getLabAccess(user.studentId) : LABORATORIES.map((lab) => lab.id);
   const progress = isStudent && user.studentId ? getProgressForStudent(user.studentId) : [];
   const progressByExperiment = Object.fromEntries(progress.map((entry) => [entry.experimentId, entry]));
-  const equipment = getEquipmentForLabs(access);
-  const attention = equipment.filter((item) =>
-    ["inspection-due", "warning", "unavailable"].includes(item.status),
-  );
   const activeSession = isStudent && user.studentId ? getActiveSessionForStudent(user.studentId) : null;
 
   const totalExperiments = EXPERIMENTS.filter(
@@ -57,7 +52,7 @@ export default async function LabsPage() {
           </>
         }
         title="Choose a laboratory."
-        description="Access is controlled per block by your institution. Published experiments and equipment readiness are shown for each laboratory."
+        description="Access is controlled per block by your institution. Published experiments are shown for each laboratory."
         meta={
           <>
             <MetaItem
@@ -65,7 +60,6 @@ export default async function LabsPage() {
               value={<span className="font-mono">{access.length}</span>}
             />
             <MetaItem label="Experiments" value={totalExperiments} />
-            <MetaItem label="Equipment attention" value={attention.length} />
             <MetaItem
               label="Session"
               value={activeSession ? "Open" : "None"}
@@ -111,18 +105,12 @@ export default async function LabsPage() {
                 const labExperiments = EXPERIMENTS.filter(
                   (experiment) => experiment.published && experiment.labId === lab.id,
                 );
-                const labAttention = equipment.filter(
-                  (item) =>
-                    item.labId === lab.id &&
-                    ["inspection-due", "warning", "unavailable"].includes(item.status),
-                ).length;
                 return (
                   <LabCard
                     key={lab.id}
                     lab={lab}
                     compact
                     experimentCount={labExperiments.length}
-                    equipmentAttention={labAttention}
                     accessible={access.includes(lab.id)}
                     href={`/labs/${lab.id}`}
                   />

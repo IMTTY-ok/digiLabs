@@ -23,7 +23,6 @@ import { EXPERIMENTS } from "@/lib/data/experiments";
 import { LABORATORIES } from "@/lib/data/labs";
 import {
   getAllSessionRecords,
-  getEquipmentForLabs,
   getInstitution,
   getInstitutionOverview,
   getPendingStudents,
@@ -38,10 +37,6 @@ export default async function InstitutionOverviewPage() {
   const institution = getInstitution(user.institutionId);
   const overview = getInstitutionOverview();
   const pending = getPendingStudents();
-  const equipment = getEquipmentForLabs(LABORATORIES.map((lab) => lab.id));
-  const attention = equipment.filter((item) =>
-    ["inspection-due", "warning", "unavailable"].includes(item.status),
-  );
   const sessions = getAllSessionRecords(8);
 
   const isAdmin = user.role === "admin";
@@ -61,7 +56,7 @@ export default async function InstitutionOverviewPage() {
           </>
         }
         title="Institution overview."
-        description="Students, laboratory access, equipment readiness and recorded activity for Northline Institute."
+        description="Students, laboratory access and recorded activity for Northline Institute."
         meta={
           <>
             <MetaItem label="Students" value={overview.total} />
@@ -91,7 +86,6 @@ export default async function InstitutionOverviewPage() {
           {[
             { label: "Students", value: overview.total, hint: `${overview.active} active` },
             { label: "Pending approvals", value: overview.pending, hint: "Awaiting review" },
-            { label: "Equipment flagged", value: overview.equipmentAttention, hint: "Needs attention" },
             { label: "Recorded sessions", value: overview.sessions, hint: "Simulated" },
           ].map((item, index) => (
             <div
@@ -127,10 +121,6 @@ export default async function InstitutionOverviewPage() {
               </div>
               <div className="grid gap-0 sm:grid-cols-3">
                 {LABORATORIES.map((lab) => {
-                  const labEquipment = equipment.filter((item) => item.labId === lab.id);
-                  const labAttention = labEquipment.filter((item) =>
-                    ["inspection-due", "warning", "unavailable"].includes(item.status),
-                  ).length;
                   const labExperiments = EXPERIMENTS.filter(
                     (experiment) => experiment.published && experiment.labId === lab.id,
                   ).length;
@@ -149,16 +139,6 @@ export default async function InstitutionOverviewPage() {
                         <div className="flex items-center justify-between gap-3">
                           <dt className="text-ink-soft">Experiments</dt>
                           <dd className="font-mono tabular text-ink">{labExperiments}</dd>
-                        </div>
-                        <div className="flex items-center justify-between gap-3">
-                          <dt className="text-ink-soft">Equipment</dt>
-                          <dd className="font-mono tabular text-ink">{labEquipment.length}</dd>
-                        </div>
-                        <div className="flex items-center justify-between gap-3">
-                          <dt className="text-ink-soft">Flagged</dt>
-                          <dd className={`font-mono tabular ${labAttention > 0 ? "text-amber" : "text-ok"}`}>
-                            {labAttention}
-                          </dd>
                         </div>
                       </dl>
                       <Link
@@ -254,38 +234,6 @@ export default async function InstitutionOverviewPage() {
           </div>
 
           <aside className="min-w-0 space-y-6">
-            <Panel className="overflow-hidden">
-              <div className="border-b border-line px-5 py-4">
-                <p className="label-mono">Equipment</p>
-                <h3 className="mt-1 text-base font-semibold tracking-[-0.01em] text-ink">
-                  Needs attention
-                </h3>
-              </div>
-              {attention.length ? (
-                <ul className="divide-y divide-line">
-                  {attention.slice(0, 6).map((item) => (
-                    <li key={item.id} className="px-5 py-3.5">
-                      <p className="text-[0.8125rem] font-medium text-ink">{item.name}</p>
-                      <p className="mt-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.1em] text-ink-faint">
-                        {LABORATORIES.find((lab) => lab.id === item.labId)?.shortName} ·{" "}
-                        {item.status.replace("-", " ")}
-                      </p>
-                      {item.note ? (
-                        <p className="mt-1.5 text-xs leading-relaxed text-ink-soft">{item.note}</p>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <EmptyState title="All clear" description="No equipment is flagged." className="py-8" />
-              )}
-              <div className="border-t border-line px-5 py-3">
-                <Link href="/institution/equipment" className="text-xs font-medium text-cobalt hover:text-cobalt-deep">
-                  Manage equipment
-                </Link>
-              </div>
-            </Panel>
-
             <Panel className="p-5">
               <p className="label-mono mb-2">Your role</p>
               <p className="text-sm font-medium text-ink">{user.title ?? user.role}</p>

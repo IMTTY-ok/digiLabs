@@ -7,8 +7,6 @@ import {
   ClipboardList,
   FlaskConical,
   MapPin,
-  ShieldAlert,
-  Wrench,
 } from "lucide-react";
 
 import { ExperimentRow } from "@/components/labs/experiment-row";
@@ -18,10 +16,8 @@ import {
   Alert,
   Badge,
   EmptyState,
-  EquipmentStatusBadge,
   Panel,
   PanelHeader,
-  SourceBadge,
   Stat,
 } from "@/components/ui";
 import { SessionControl } from "@/features/labs/session-control";
@@ -30,7 +26,6 @@ import { EXPERIMENTS } from "@/lib/data/experiments";
 import { LAB_BY_ID, LABORATORIES } from "@/lib/data/labs";
 import {
   getActiveSessionForStudent,
-  getEquipmentForLab,
   getLabAccess,
   getLabActivity,
   getProgressForStudent,
@@ -64,11 +59,7 @@ export default async function LabDetailPage({
 
   const experiments = EXPERIMENTS.filter((experiment) => experiment.labId === lab.id);
   const publishedExperiments = experiments.filter((experiment) => experiment.published);
-  const equipment = getEquipmentForLab(lab.id);
   const activity = getLabActivity([lab.id], 18);
-  const attention = equipment.filter((item) =>
-    ["inspection-due", "warning", "unavailable"].includes(item.status),
-  );
 
   const theme = accentTheme(lab.accent);
 
@@ -105,7 +96,6 @@ export default async function LabDetailPage({
           <>
             <MetaItem label="Capacity" value={`${lab.capacity} seats`} />
             <MetaItem label="Experiments" value={publishedExperiments.length} />
-            <MetaItem label="Equipment" value={equipment.length} />
             <MetaItem
               label="Access"
               value={accessGranted ? "Granted" : "Locked"}
@@ -193,74 +183,13 @@ export default async function LabDetailPage({
               )}
             </Panel>
 
-            {/* Equipment */}
-            <Panel className="overflow-hidden">
-              <div className="border-b border-line px-5 py-4">
-                <PanelHeader
-                  eyebrow={`${equipment.length} items`}
-                  title="Equipment readiness"
-                  description="Records maintained by the institution. Simulated sessions may add equipment events."
-                  action={<Wrench className="size-4 text-ink-faint" strokeWidth={1.8} aria-hidden />}
-                />
-              </div>
-              {equipment.length ? (
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[640px] text-sm">
-                    <thead>
-                      <tr className="border-b border-line bg-surface-raised text-left">
-                        <th className="px-5 py-3 font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-ink-faint">
-                          Item
-                        </th>
-                        <th className="px-5 py-3 font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-ink-faint">
-                          Category
-                        </th>
-                        <th className="px-5 py-3 font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-ink-faint">
-                          Status
-                        </th>
-                        <th className="px-5 py-3 font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-ink-faint">
-                          Last inspection
-                        </th>
-                        <th className="px-5 py-3 font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-ink-faint">
-                          Source
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {equipment.map((item) => (
-                        <tr key={item.id} className="border-b border-line last:border-b-0">
-                          <td className="px-5 py-3.5">
-                            <p className="font-medium text-ink">{item.name}</p>
-                            {item.note ? (
-                              <p className="mt-0.5 text-xs leading-snug text-ink-soft">{item.note}</p>
-                            ) : null}
-                          </td>
-                          <td className="px-5 py-3.5 text-ink-soft">{item.category}</td>
-                          <td className="px-5 py-3.5">
-                            <EquipmentStatusBadge status={item.status} />
-                          </td>
-                          <td className="px-5 py-3.5 font-mono text-xs text-ink-soft">
-                            {formatDate(item.lastInspection)}
-                          </td>
-                          <td className="px-5 py-3.5">
-                            <SourceBadge source={item.source} />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <EmptyState title="No equipment recorded" description="No equipment is provisioned for this laboratory." className="py-10" />
-              )}
-            </Panel>
-
             {/* Activity */}
             <Panel className="overflow-hidden">
               <div className="border-b border-line px-5 py-4">
                 <PanelHeader
                   eyebrow={`${activity.length} events`}
                   title="Laboratory activity"
-                  description="Equipment and safety events recorded in this block."
+                  description="Safety events recorded in this block."
                 />
               </div>
               {activity.length ? (
@@ -329,23 +258,7 @@ export default async function LabDetailPage({
                     </dt>
                     <dd className="font-medium text-ink">{lab.capacity}</dd>
                   </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <dt className="font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-ink-faint">
-                      Equipment flagged
-                    </dt>
-                    <dd className={`font-medium ${attention.length > 0 ? "text-amber" : "text-ok"}`}>
-                      {attention.length}
-                    </dd>
-                  </div>
                 </dl>
-                {attention.length > 0 ? (
-                  <div className="flex items-start gap-2 rounded-sm border border-amber/30 bg-amber-wash px-3 py-2.5">
-                    <ShieldAlert className="mt-0.5 size-3.5 shrink-0 text-amber" strokeWidth={1.8} aria-hidden />
-                    <p className="text-[0.6875rem] leading-relaxed text-amber">
-                      Some equipment needs attention before use. Check the readiness table.
-                    </p>
-                  </div>
-                ) : null}
               </div>
             </Panel>
 

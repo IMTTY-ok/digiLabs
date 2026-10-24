@@ -7,7 +7,6 @@ import {
   LockKeyhole,
   MapPin,
   Sparkles,
-  Wrench,
 } from "lucide-react";
 
 import { CampusExplorer } from "@/components/campus/campus-explorer";
@@ -19,7 +18,6 @@ import { EXPERIMENTS } from "@/lib/data/experiments";
 import { CAMPUS_DESTINATIONS, LABORATORIES } from "@/lib/data/labs";
 import {
   getActiveSessionForStudent,
-  getEquipmentForLabs,
   getLabAccess,
   getLabActivity,
 } from "@/lib/data/repository";
@@ -48,10 +46,6 @@ export default async function CampusPage() {
     ]),
   ) as Record<LabId, number>;
 
-  const equipment = getEquipmentForLabs(access);
-  const attention = equipment.filter((item) =>
-    ["inspection-due", "warning", "unavailable"].includes(item.status),
-  );
   const activity = getLabActivity(access, 6);
 
   return (
@@ -76,7 +70,6 @@ export default async function CampusPage() {
               value={<span className="font-mono">{access.length}</span>}
             />
             <MetaItem label="Experiments" value={EXPERIMENTS.filter((experiment) => experiment.published).length} />
-            <MetaItem label="Equipment attention" value={attention.length} />
             <MetaItem
               label="Session"
               value={activeSession ? `${activeSession.outcome === "active" ? "Open" : "Closed"}` : "None"}
@@ -125,10 +118,6 @@ export default async function CampusPage() {
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {LABORATORIES.map((lab) => {
                 const theme = accentTheme(lab.accent);
-                const labEquipment = equipment.filter((item) => item.labId === lab.id);
-                const labAttention = labEquipment.filter((item) =>
-                  ["inspection-due", "warning", "unavailable"].includes(item.status),
-                ).length;
                 const accessible = isStudent ? access.includes(lab.id) : true;
                 return (
                   <article key={lab.id} className="panel hover-lift relative overflow-hidden p-5">
@@ -164,24 +153,12 @@ export default async function CampusPage() {
                         </Badge>
                       ))}
                     </div>
-                    <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-line pt-3 text-xs">
+                    <dl className="mt-4 grid grid-cols-1 gap-3 border-t border-line pt-3 text-xs">
                       <div>
                         <dt className="font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-ink-faint">
                           Capacity
                         </dt>
                         <dd className="mt-0.5 font-medium text-ink">{lab.capacity} seats</dd>
-                      </div>
-                      <div>
-                        <dt className="font-mono text-[0.5625rem] uppercase tracking-[0.12em] text-ink-faint">
-                          Equipment
-                        </dt>
-                        <dd
-                          className={`mt-0.5 font-medium ${labAttention > 0 ? "text-amber" : "text-ok"}`}
-                        >
-                          {labAttention > 0
-                            ? `${labAttention} need attention`
-                            : "All ready"}
-                        </dd>
                       </div>
                     </dl>
                     {accessible ? (
@@ -210,49 +187,6 @@ export default async function CampusPage() {
           </section>
 
           <aside className="min-w-0 space-y-6">
-            <Panel className="overflow-hidden">
-              <div className="border-b border-line px-5 py-4">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="label-mono">Readiness</p>
-                    <h3 className="mt-1 text-base font-semibold tracking-[-0.01em] text-ink">
-                      Equipment needing attention
-                    </h3>
-                  </div>
-                  <Wrench className="size-4 text-ink-faint" strokeWidth={1.8} aria-hidden />
-                </div>
-              </div>
-              {attention.length ? (
-                <ul className="divide-y divide-line">
-                  {attention.slice(0, 6).map((item) => (
-                    <li key={item.id} className="px-5 py-3.5">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <p className="text-[0.8125rem] font-medium leading-snug text-ink">
-                            {item.name}
-                          </p>
-                          <p className="mt-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.1em] text-ink-faint">
-                            {LABORATORIES.find((lab) => lab.id === item.labId)?.shortName} ·{" "}
-                            {item.status.replace("-", " ")}
-                          </p>
-                        </div>
-                        <MapPin className="mt-0.5 size-3.5 shrink-0 text-amber" strokeWidth={1.8} aria-hidden />
-                      </div>
-                      {item.note ? (
-                        <p className="mt-1.5 text-xs leading-relaxed text-ink-soft">{item.note}</p>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <EmptyState
-                  title="All clear"
-                  description="No equipment is flagged in your laboratories."
-                  className="py-8"
-                />
-              )}
-            </Panel>
-
             <Panel className="overflow-hidden">
               <div className="border-b border-line px-5 py-4">
                 <p className="label-mono">Recent activity</p>

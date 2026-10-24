@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, FlaskConical, LockKeyhole, Wrench } from "lucide-react";
+import { ArrowUpRight, FlaskConical, LockKeyhole } from "lucide-react";
 
 import { accentTheme } from "@/components/labs/lab-accent";
 import { Badge } from "@/components/ui";
@@ -9,14 +9,12 @@ import type { Laboratory } from "@/types";
 export function LabCard({
   lab,
   experimentCount,
-  equipmentAttention = 0,
   accessible,
   href,
   compact = false,
 }: {
   lab: Laboratory;
   experimentCount: number;
-  equipmentAttention?: number;
   accessible: boolean;
   href: string;
   compact?: boolean;
@@ -61,17 +59,6 @@ export function LabCard({
           <FlaskConical className="size-3.5 text-ink-faint" strokeWidth={1.8} aria-hidden />
           {experimentCount} experiments
         </span>
-        {equipmentAttention > 0 ? (
-          <span className="inline-flex items-center gap-1.5 text-xs text-amber">
-            <Wrench className="size-3.5" strokeWidth={1.8} aria-hidden />
-            {equipmentAttention} need attention
-          </span>
-        ) : (
-          <span className="inline-flex items-center gap-1.5 text-xs text-ok">
-            <span className="size-1.5 rounded-full bg-ok" aria-hidden />
-            Equipment ready
-          </span>
-        )}
       </div>
 
       {accessible ? (
