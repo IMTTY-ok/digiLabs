@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { RefObject } from "react";
 import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -96,11 +97,13 @@ function Block({
   selected,
   activeSession,
   onSelect,
+  portal,
 }: {
   destination: CampusDestination;
   selected: boolean;
   activeSession: boolean;
   onSelect: (id: LabId) => void;
+  portal?: any;
 }) {
   const [hovered, setHovered] = useState(false);
   const accent = ACCENT_HEX[destination.accent];
@@ -197,6 +200,7 @@ function Block({
 
       <Html
         center
+        portal={portal}
         distanceFactor={17}
         position={[0, BUILDING_HEIGHT + 2.05, 0]}
         zIndexRange={[20, 0]}
@@ -302,10 +306,12 @@ function Site({
   selectedId,
   activeSessionId,
   onSelect,
+  portal,
 }: {
   selectedId: LabId | null;
   activeSessionId: LabId | null;
   onSelect: (id: LabId) => void;
+  portal?: any;
 }) {
   return (
     <>
@@ -339,6 +345,7 @@ function Site({
           selected={selectedId === destination.id}
           activeSession={activeSessionId === destination.id}
           onSelect={onSelect}
+          portal={portal}
         />
       ))}
 
@@ -364,23 +371,31 @@ export interface CampusCanvasProps {
 }
 
 export default function CampusCanvas({ selectedId, activeSessionId, onSelect, animateCamera }: CampusCanvasProps) {
+  const portalRef = useRef<HTMLDivElement>(null);
   const selected = selectedId ? CAMPUS_DESTINATIONS.find((entry) => entry.id === selectedId) : null;
   const camera = selected ? selected.camera : CAMPUS_OVERVIEW.camera;
   const target = selected ? selected.target : CAMPUS_OVERVIEW.target;
 
   return (
-    <Canvas
-      dpr={[1, 1.75]}
-      gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
-      camera={{ position: CAMPUS_OVERVIEW.camera, fov: 42, near: 0.1, far: 200 }}
-    >
-      <Site selectedId={selectedId} activeSessionId={activeSessionId} onSelect={onSelect} />
-      <CameraRig
-        position={camera}
-        target={target}
-        animate={animateCamera}
-        presetKey={selectedId ?? "overview"}
+    <>
+      <div
+        ref={portalRef}
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        aria-hidden
       />
-    </Canvas>
+      <Canvas
+        dpr={[1, 1.75]}
+        gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+        camera={{ position: CAMPUS_OVERVIEW.camera, fov: 42, near: 0.1, far: 200 }}
+      >
+        <Site selectedId={selectedId} activeSessionId={activeSessionId} onSelect={onSelect} portal={portalRef} />
+        <CameraRig
+          position={camera}
+          target={target}
+          animate={animateCamera}
+          presetKey={selectedId ?? "overview"}
+        />
+      </Canvas>
+    </>
   );
 }
