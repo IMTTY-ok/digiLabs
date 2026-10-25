@@ -28,6 +28,14 @@ export const EXPERIMENTS: Experiment[] = [
         verified: true,
         note: "The supplied video demonstrates an HCl titration and may label reagents differently from this NaOH simulation.",
       },
+      {
+        id: "v-c1-local",
+        title: "Chemistry Titration Tutorial: Determining the Molarity of HCl",
+        youtubeId: "",
+        url: "/videos/Chemistry_Titration_Tutorial__Determining_the_Molarity_of_HCl.mp4",
+        verified: true,
+        note: "Local reference video.",
+      },
     ],
   },
   {
