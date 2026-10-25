@@ -3,13 +3,11 @@ import {
   ArrowRight,
   ArrowUpRight,
   BookOpen,
-  Building2,
   ClipboardCheck,
   FlaskConical,
   GraduationCap,
   MapPin,
   ShieldCheck,
-  Wrench,
 } from "lucide-react";
 
 import { CampusPlan } from "@/components/marketing/campus-plan";
@@ -33,18 +31,6 @@ const ROLE_CARDS = [
     icon: BookOpen,
     copy: "See how each cohort is progressing, inspect experiment content and preview the simulations.",
     points: ["Cohort progress matrix", "Quiz scores and attempts", "Read-only experiment preview"],
-  },
-  {
-    role: "Technician",
-    icon: Wrench,
-    copy: "Keep equipment readiness honest: flag inspections, record faults and log checks.",
-    points: ["Equipment status board", "Inspection logging", "Audit trail of changes"],
-  },
-  {
-    role: "Administrator",
-    icon: Building2,
-    copy: "Approve accounts, grant laboratory access and keep an eye on the institution's readiness.",
-    points: ["Account approvals", "Per-lab access control", "Institution overview"],
   },
 ];
 
@@ -90,7 +76,7 @@ export default function LandingPage() {
                 {[
                   { label: "Laboratories", value: String(LABORATORIES.length) },
                   { label: "Guided experiments", value: String(published.length) },
-                  { label: "Account roles", value: "4" },
+                  { label: "Account roles", value: "2" },
                 ].map((item) => (
                   <div key={item.label}>
                     <dt className="label-mono">{item.label}</dt>
@@ -334,14 +320,14 @@ export default function LandingPage() {
             <div className="max-w-2xl">
               <p className="label-mono">04 / For institutions</p>
               <h2 className="display-balance mt-3 text-3xl font-semibold tracking-[-0.025em] text-ink sm:text-4xl">
-                Four roles, one shared record.
+                Two roles, one shared record.
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-ink-soft">
                 Sign in as each role to see the same institution from a different seat. The demo accounts use
                 one shared password and no real identities.
               </p>
             </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
               {ROLE_CARDS.map((card) => {
                 const Icon = card.icon;
                 return (
