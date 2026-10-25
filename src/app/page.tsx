@@ -57,7 +57,7 @@ export default function LandingPage() {
                 <span className="mt-2 block text-ink-soft">From anywhere.</span>
               </h1>
               <p className="mt-6 max-w-xl text-[0.95rem] leading-relaxed text-ink-soft sm:text-base">
-                LabSafe is a browser-based virtual laboratory for first-year B.Tech students. Explore a
+                DigiLab is a browser-based virtual laboratory for first-year B.Tech students. Explore a
                 three-block campus, run guided chemistry and electronics experiments, and record readings
                 that are labelled as simulated — every time.
               </p>
@@ -361,7 +361,7 @@ export default function LandingPage() {
                 Honest about what this is.
               </h2>
               <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
-                A virtual lab is useful only if it is clear about its limits. LabSafe separates institutional
+                A virtual lab is useful only if it is clear about its limits. DigiLab separates institutional
                 records from simulated readings, and says which is which on every screen.
               </p>
               <div className="mt-6 flex items-start gap-3 rounded-sm border border-amber/30 bg-amber-wash p-4">
@@ -481,7 +481,7 @@ export default function LandingPage() {
         </div>
         <div className="border-t border-line">
           <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-4 text-[0.6875rem] text-ink-faint sm:px-6">
-            <p>© 2026 LabSafe Virtual Labs · Demonstration build</p>
+            <p>© 2026 DigiLab Virtual Labs · Demonstration build</p>
             <p className="font-mono uppercase tracking-[0.12em]">Simulated data · No hardware connected</p>
           </div>
         </div>

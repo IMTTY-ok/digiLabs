@@ -37,7 +37,7 @@ export function Brand({
     <Link href={href} className={cn("group inline-flex items-center gap-2.5", className)}>
       <BrandMark />
       <span className="leading-none">
-        <span className="block text-[0.95rem] font-semibold tracking-[-0.015em] text-ink">LabSafe</span>
+        <span className="block text-[0.95rem] font-semibold tracking-[-0.015em] text-ink">DigiLab</span>
         {!compact ? (
           <span className="mt-1 block font-mono text-[0.5625rem] uppercase tracking-[0.2em] text-ink-faint">
             {subtitle}

@@ -18,9 +18,9 @@ import type {
 } from "@/types";
 
 const DATA_DIR = path.join(process.cwd(), ".data");
-const DATA_FILE = path.join(DATA_DIR, "labsafe-demo.json");
+const DATA_FILE = path.join(DATA_DIR, "DigiLab-demo.json");
 
-const globalStore = globalThis as typeof globalThis & { __labsafeDb?: DemoDatabase };
+const globalStore = globalThis as typeof globalThis & { __DigiLabDb?: DemoDatabase };
 
 function persist(db: DemoDatabase) {
   try {
@@ -29,7 +29,7 @@ function persist(db: DemoDatabase) {
     fs.writeFileSync(tmp, JSON.stringify(db, null, 2), "utf8");
     fs.renameSync(tmp, DATA_FILE);
   } catch (error) {
-    console.error("[labsafe] Could not persist demo database", error);
+    console.error("[DigiLab] Could not persist demo database", error);
   }
 }
 
@@ -42,17 +42,17 @@ function persist(db: DemoDatabase) {
  * for a Firebase/Postgres-backed repository without touching UI components.
  */
 export function getDb(): DemoDatabase {
-  if (globalStore.__labsafeDb) return globalStore.__labsafeDb;
+  if (globalStore.__DigiLabDb) return globalStore.__DigiLabDb;
 
   try {
     const raw = fs.readFileSync(DATA_FILE, "utf8");
     const parsed = JSON.parse(raw) as DemoDatabase;
     if (parsed.version !== 1) throw new Error("Unsupported demo database version");
-    globalStore.__labsafeDb = parsed;
+    globalStore.__DigiLabDb = parsed;
     return parsed;
   } catch {
     const seeded = createSeedDatabase();
-    globalStore.__labsafeDb = seeded;
+    globalStore.__DigiLabDb = seeded;
     persist(seeded);
     return seeded;
   }

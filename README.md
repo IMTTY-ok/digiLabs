@@ -1,11 +1,11 @@
-# LabSafe Virtual Labs
+# DigiLab Virtual Labs
 
 A browser-based virtual engineering laboratory for first-year B.Tech students. It
 provides a navigable 3D campus, guided experiments in chemistry, electronics and
 IT workshop, browser simulations with recorded observations, server-graded
 assessments, and institution-controlled access.
 
-![LabSafe hero](docs/screenshots/01-home.png)
+![DigiLab hero](docs/screenshots/01-home.png)
 
 ## Highlights
 
@@ -31,7 +31,7 @@ assessments, and institution-controlled access.
 - `@react-three/fiber`, `@react-three/drei`, `three` for the 3D campus and
   interactive models
 - Zustand for client state
-- File-backed demo repository (`.data/labsafe-demo.json`), seeded on first run
+- File-backed demo repository (`.data/DigiLab-demo.json`), seeded on first run
 
 ## Screenshots
 
@@ -114,4 +114,4 @@ docs/
 - The repository is a demo stand-in. Replace `src/lib/data/repository.ts` with a
   real database for production use.
 - `.data/` is gitignored and is created and seeded on first run.
-- Do not commit secrets; `LABSAFE_SESSION_SECRET` may be set in production.
+- Do not commit secrets; `DigiLab_SESSION_SECRET` may be set in production.

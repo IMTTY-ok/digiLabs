@@ -10,7 +10,7 @@ export interface SignInState {
   error?: string;
 }
 
-const DEMO_PASSWORD = process.env.LABSAFE_DEMO_PASSWORD ?? "demo1234";
+const DEMO_PASSWORD = process.env.DigiLab_DEMO_PASSWORD ?? "demo1234";
 
 function passwordMatches(input: string): boolean {
   const provided = createHash("sha256").update(input).digest();
@@ -19,7 +19,7 @@ function passwordMatches(input: string): boolean {
 }
 
 /**
- * Seeded demo sign-in. The password comes from `LABSAFE_DEMO_PASSWORD` (default
+ * Seeded demo sign-in. The password comes from `DigiLab_DEMO_PASSWORD` (default
  * `demo1234`) and is verified only on the server. This is not production
  * authentication: a real deployment must replace it with an identity provider
  * and enforce every permission at the data layer.

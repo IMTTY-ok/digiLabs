@@ -18,12 +18,12 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "LabSafe Virtual Labs — Explore. Experiment. Understand.",
-    template: "%s · LabSafe Virtual Labs",
+    default: "DigiLab Virtual Labs — Explore. Experiment. Understand.",
+    template: "%s · DigiLab Virtual Labs",
   },
   description:
     "A browser-based virtual engineering laboratory for first-year B.Tech students: a navigable 3D campus, guided experiments in chemistry, electronics and IT workshop, and institution-controlled access.",
-  applicationName: "LabSafe Virtual Labs",
+  applicationName: "DigiLab Virtual Labs",
 };
 
 export const viewport: Viewport = {

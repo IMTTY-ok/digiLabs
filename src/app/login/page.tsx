@@ -25,7 +25,7 @@ export default async function LoginPage() {
           <Link href="/" className="inline-flex items-center gap-2.5">
             <BrandMark />
             <span>
-              <span className="block text-[0.95rem] font-semibold tracking-[-0.015em] text-paper">LabSafe</span>
+              <span className="block text-[0.95rem] font-semibold tracking-[-0.015em] text-paper">DigiLab</span>
               <span className="mt-1 block font-mono text-[0.5625rem] uppercase tracking-[0.2em] text-white/45">
                 Virtual Labs
               </span>
@@ -79,7 +79,7 @@ export default async function LoginPage() {
         <div className="flex items-center justify-between border-b border-line px-4 py-4 sm:px-6 lg:hidden">
           <Link href="/" className="inline-flex items-center gap-2.5">
             <BrandMark />
-            <span className="text-[0.95rem] font-semibold text-ink">LabSafe</span>
+            <span className="text-[0.95rem] font-semibold text-ink">DigiLab</span>
           </Link>
           <Link
             href="/"

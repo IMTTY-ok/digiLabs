@@ -7,11 +7,11 @@ import { redirect } from "next/navigation";
 import { getStudentByUserId, getUserById } from "@/lib/data/repository";
 import type { DemoUser, Role, SessionUser } from "@/types";
 
-const COOKIE_NAME = "labsafe_session";
+const COOKIE_NAME = "DigiLab_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 8;
 
 function secret(): string {
-  return process.env.LABSAFE_SESSION_SECRET ?? "labsafe-demo-session-secret-not-for-production";
+  return process.env.DigiLab_SESSION_SECRET ?? "DigiLab-demo-session-secret-not-for-production";
 }
 
 function sign(value: string): string {
